@@ -1,0 +1,10 @@
+media/
+originals/
+*.mov
+*.MOV
+*.mp4
+*.MP4
+.DS_Store
+.env
+.env.*
+node_modules/
