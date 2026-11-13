@@ -39,12 +39,13 @@
     .primary:hover { transform:translateY(-2px); background:#e3bd6624; }
     .primary .icon { width:18px; height:18px; }
     .hero-note { margin:19px 0 0; font:italic 15px/1.6 var(--serif); color:#9faaba; }
-    .hero-art { position:relative; margin:0 -35px 0 -50px; }
+    .hero-text,.hero-art { min-width:0; }
+    .hero-art { position:relative; margin:0 -20px 0 -40px; }
     .hero-art::before { content:""; position:absolute; inset:9% 3%; border-radius:50%; background:#b5996220; filter:blur(60px); pointer-events:none; }
     .hero-art img { display:block; position:relative; width:100%; height:auto; aspect-ratio:3/2; object-fit:cover; mask-image:radial-gradient(ellipse at center,#000 52%,transparent 73%); }
     .hero-art figcaption { position:relative; margin:-9px 26px 0; text-align:center; font:italic 14px/1.7 var(--serif); color:#bba77e; }
     .hero-art blockquote { margin:0; font:italic 16px/1.8 var(--serif); }
-    .hero-art cite { display:block; margin-top:11px; color:#9eacbf; font:normal 11px/1.8 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    .hero-art cite { display:block; margin-top:11px; color:#9eacbf; opacity:.1; font:normal 11px/1.8 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
     .sky-section { padding:34px 0 0; border-top:1px solid #ddd0ab20; }
     .section-heading { display:flex; align-items:flex-end; justify-content:space-between; gap:20px; padding-inline:20px; }
     .section-heading h2 { margin:0; font:normal 35px/1.25 var(--serif); letter-spacing:-.02em; }
@@ -104,7 +105,11 @@
     .video-stage { position:relative; display:flex; align-items:center; justify-content:center; min-height:200px; background:#090e17; }
     video { display:block; width:100%; height:min(61dvh,560px); min-height:200px; object-fit:contain; background:#090e17; }
     .video-message { position:absolute; top:40%; left:16px; right:16px; text-align:center; color:#e7d8b5; font-size:13px; pointer-events:none; }
-    .video-error { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; padding:30px; background:#090e17; color:#eadfc9; text-align:center; }
+    .play-prompt { position:absolute; z-index:2; top:50%; left:50%; transform:translate(-50%,-50%); display:flex; flex-direction:column; align-items:center; gap:15px; width:min(260px,90%); padding:13px; border:0; border-radius:18px; background:transparent; color:#f0d59a; font-size:13px; cursor:pointer; }
+    .play-disc { display:grid; place-items:center; width:78px; height:78px; border:1px solid #e6c780bd; border-radius:50%; background:#101d34d9; box-shadow:0 0 38px #e3bd6626; transition:scale .2s,background .2s; }
+    .play-disc svg { width:30px; height:30px; margin-left:4px; fill:currentColor; }
+    .play-prompt:hover .play-disc { scale:1.06; background:#28314ae6; }
+    .video-error { position:absolute; z-index:3; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; padding:30px; background:#090e17; color:#eadfc9; text-align:center; }
     .video-error p { max-width:310px; margin:0; font-size:14px; }
     .video-error a { font-size:12px; text-underline-offset:4px; }
     .dialog-foot { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:16px 22px; }
@@ -199,9 +204,10 @@
     <div class="dialog-content">
       <div class="dialog-head"><div><p class="dialog-eyebrow" id="video-number"></p><h2 id="video-title"></h2></div><button class="close-button" id="close-video" type="button" aria-label="Закрыть поздравление" autofocus><svg class="icon" aria-hidden="true"><use href="#close-icon"/></svg></button></div>
       <div class="video-stage">
-        <video id="birthday-video" controls playsinline preload="none" aria-label="Поздравительное видео">Твой браузер не поддерживает воспроизведение видео.</video>
+        <video id="birthday-video" playsinline preload="none" aria-label="Поздравительное видео">Твой браузер не поддерживает воспроизведение видео.</video>
+        <button class="play-prompt" id="play-video" type="button" aria-label="Воспроизвести поздравление" hidden><span class="play-disc" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="m10 5 17 11-17 11Z"/></svg></span><span id="play-label">Смотреть поздравление</span></button>
         <p class="video-message" id="video-loading" role="status" hidden>Твоя звезда готовит поздравление…</p>
-        <div class="video-error" id="video-error" role="alert" hidden><p>Не получилось открыть поздравление. Давай попробуем ещё раз?</p><button class="primary" id="retry-video" type="button">Попробовать ещё раз</button><a id="direct-video" target="_blank" rel="noopener noreferrer">Открыть видео отдельно</a></div>
+        <div class="video-error" id="video-error" role="alert" hidden><p id="video-error-message">Не получилось открыть поздравление. Давай попробуем ещё раз?</p><button class="primary" id="retry-video" type="button">Попробовать ещё раз</button><a id="direct-video" target="_blank" rel="noopener noreferrer">Открыть видео отдельно</a></div>
       </div>
       <div class="dialog-foot"><p class="player-hint" id="player-hint">Нажми ▶, когда будешь готов.</p><button class="next-gift" id="next-video" type="button"><span id="next-video-label">Следующая звезда</span><svg class="icon" aria-hidden="true"><use href="#arrow-icon"/></svg></button></div>
     </div>
@@ -211,7 +217,7 @@
       'use strict';
       const gifts = [
         { id: 'artem', label: 'От Артёма', file: 'artem.mp4' },
-        { id: 'ildar', label: 'От Ильдара', file: 'ildar.mp4' },
+        { id: 'ildar', label: 'От Ильдара', file: 'ildar.mp4?v=2' },
         { id: 'parents', label: 'От моих родителей', file: 'parents.mp4' },
         { id: 'rinat', label: 'От Рината', file: 'rinat.mp4' },
         { id: 'marat', label: 'От Марата', file: 'marat.mp4' },
@@ -235,9 +241,15 @@
       const directLink = document.getElementById('direct-video');
       const hint = document.getElementById('player-hint');
       const nextLabel = document.getElementById('next-video-label');
+      const playButton = document.getElementById('play-video');
+      const playLabel = document.getElementById('play-label');
+      const errorMessage = document.getElementById('video-error-message');
       const cards = new Map();
       let activeIndex = -1;
       let returnFocus = null;
+      let mediaRevision = 0;
+      let playRequested = false;
+      let playbackTimer = null;
       const icon = name => `<svg class="icon" aria-hidden="true"><use href="#${name}-icon"/></svg>`;
 
       const starPositions = [
@@ -289,19 +301,72 @@
         document.querySelector('.map-note').hidden = complete;
       }
 
+      function clearPlaybackTimer() {
+        if (playbackTimer !== null) window.clearTimeout(playbackTimer);
+        playbackTimer = null;
+      }
+
+      function showPlaybackError(message) {
+        if (!dialog.open || activeIndex < 0) return;
+        clearPlaybackTimer();
+        playRequested = false;
+        video.pause();
+        loading.hidden = true;
+        playButton.hidden = true;
+        errorMessage.textContent = message;
+        error.hidden = false;
+      }
+
+      function watchPlaybackStart() {
+        clearPlaybackTimer();
+        const revision = mediaRevision;
+        playbackTimer = window.setTimeout(() => {
+          if (revision !== mediaRevision || !dialog.open || !playRequested) return;
+          showPlaybackError('Видео загружается дольше обычного. Попробуй ещё раз или открой его отдельно.');
+        }, 30000);
+      }
+
+      async function startPlayback() {
+        if (!dialog.open || activeIndex < 0) return;
+        const revision = mediaRevision;
+        playRequested = true;
+        error.hidden = true;
+        playButton.hidden = true;
+        video.controls = true;
+        loading.textContent = 'Загружаем поздравление…';
+        loading.hidden = false;
+        watchPlaybackStart();
+        try {
+          if (video.ended) video.currentTime = 0;
+          await video.play();
+        } catch (playError) {
+          if (revision !== mediaRevision || !dialog.open || playError.name === 'AbortError') return;
+          showPlaybackError('Не получилось запустить поздравление. Попробуй ещё раз или открой видео отдельно.');
+        }
+      }
+
       function openGift(index, opener) {
         if (!Number.isInteger(index) || index < 0 || index >= gifts.length) return;
         const gift = gifts[index];
         if (opener) returnFocus = opener;
+        mediaRevision += 1;
+        clearPlaybackTimer();
+        playRequested = false;
         video.pause();
+        video.autoplay = false;
+        video.removeAttribute('autoplay');
+        video.controls = false;
         activeIndex = index;
         document.getElementById('video-title').textContent = gift.label;
         document.getElementById('video-number').textContent = `Звезда ${String(index + 1).padStart(2, '0')} из ${gifts.length}`;
         video.setAttribute('aria-label', `Поздравление: ${gift.label}`);
         hint.textContent = 'Нажми ▶, когда будешь готов.';
         nextLabel.textContent = index === gifts.length - 1 ? 'К созвездию' : 'Следующая звезда';
-        loading.hidden = false;
+        loading.hidden = true;
         error.hidden = true;
+        playLabel.textContent = 'Смотреть поздравление';
+        playButton.setAttribute('aria-label', 'Воспроизвести поздравление');
+        playButton.hidden = false;
         directLink.href = `media/${gift.file}`;
         if (!dialog.open) {
           dialog.showModal();
@@ -310,11 +375,15 @@
         video.preload = 'metadata';
         video.src = `media/${gift.file}`;
         video.load();
-        document.getElementById('close-video').focus();
+        playButton.focus();
       }
 
       function markOpened() {
         if (!dialog.open || activeIndex < 0) return;
+        if (!playRequested) { video.pause(); return; }
+        clearPlaybackTimer();
+        playButton.hidden = true;
+        video.controls = true;
         opened.add(gifts[activeIndex].id);
         loading.hidden = true;
         hint.textContent = 'Эти слова — для тебя.';
@@ -322,10 +391,35 @@
         saveProgress();
       }
 
-      video.addEventListener('loadedmetadata', () => { loading.hidden = true; });
+      playButton.addEventListener('click', startPlayback);
+      video.addEventListener('loadedmetadata', () => {
+        if (!dialog.open || playRequested) return;
+        video.pause();
+        video.currentTime = 0;
+        loading.hidden = true;
+      });
+      video.addEventListener('play', () => {
+        if (!playRequested) video.pause();
+      });
+      video.addEventListener('pause', () => {
+        if (!video.paused) return;
+        clearPlaybackTimer();
+        loading.hidden = true;
+      });
+      video.addEventListener('waiting', () => {
+        if (!dialog.open || !playRequested || video.paused) return;
+        loading.hidden = false;
+        watchPlaybackStart();
+      });
       video.addEventListener('playing', markOpened);
       video.addEventListener('ended', () => {
-        if (!dialog.open || activeIndex < 0) return;
+        if (!dialog.open || activeIndex < 0 || !playRequested) return;
+        clearPlaybackTimer();
+        video.controls = true;
+        loading.hidden = true;
+        playLabel.textContent = 'Посмотреть ещё раз';
+        playButton.setAttribute('aria-label', 'Посмотреть поздравление ещё раз');
+        playButton.hidden = false;
         const gift = gifts[activeIndex];
         opened.add(gift.id);
         watched.add(gift.id);
@@ -335,11 +429,14 @@
       });
       video.addEventListener('error', () => {
         if (!dialog.open || !video.getAttribute('src')) return;
-        loading.hidden = true;
-        error.hidden = false;
+        showPlaybackError(video.error && video.error.code === 2
+          ? 'Не получилось загрузить видео. Попробуй ещё раз или проверь соединение.'
+          : 'Браузер не смог воспроизвести это видео. Попробуй ещё раз или открой его отдельно.');
       });
       document.getElementById('retry-video').addEventListener('click', () => {
-        if (activeIndex >= 0) openGift(activeIndex);
+        if (activeIndex < 0) return;
+        openGift(activeIndex);
+        startPlayback();
       });
       document.getElementById('close-video').addEventListener('click', () => dialog.close());
       document.getElementById('next-video').addEventListener('click', () => {
@@ -353,14 +450,20 @@
         }
       });
       dialog.addEventListener('close', () => {
+        if (dialog.open) return;
+        mediaRevision += 1;
+        clearPlaybackTimer();
+        playRequested = false;
         activeIndex = -1;
         video.pause();
         video.removeAttribute('src');
         video.preload = 'none';
+        video.controls = false;
         video.load();
         document.body.classList.remove('modal-open');
         loading.hidden = true;
         error.hidden = true;
+        playButton.hidden = true;
         if (returnFocus) returnFocus.focus({ preventScroll: true });
       });
       if (isTestMode) {
