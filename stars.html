@@ -43,6 +43,8 @@
     .hero-art::before { content:""; position:absolute; inset:9% 3%; border-radius:50%; background:#b5996220; filter:blur(60px); pointer-events:none; }
     .hero-art img { display:block; position:relative; width:100%; height:auto; aspect-ratio:3/2; object-fit:cover; mask-image:radial-gradient(ellipse at center,#000 52%,transparent 73%); }
     .hero-art figcaption { position:relative; margin:-9px 26px 0; text-align:center; font:italic 14px/1.7 var(--serif); color:#bba77e; }
+    .hero-art blockquote { margin:0; font:italic 16px/1.8 var(--serif); }
+    .hero-art cite { display:block; margin-top:11px; color:#9eacbf; font:normal 11px/1.8 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
     .sky-section { padding:34px 0 0; border-top:1px solid #ddd0ab20; }
     .section-heading { display:flex; align-items:flex-end; justify-content:space-between; gap:20px; padding-inline:20px; }
     .section-heading h2 { margin:0; font:normal 35px/1.25 var(--serif); letter-spacing:-.02em; }
@@ -92,22 +94,6 @@
     .little-rose { display:block; width:82px; height:102px; margin:0 auto 24px; }
     .footer { display:flex; align-items:center; justify-content:space-between; gap:15px; border-top:1px solid #ddd0ab20; padding:24px 0 30px; color:#8897ad; font-size:10px; }
     .footer-signature { font:italic 16px/1.4 var(--serif); color:#bba67c; }
-    .book-memories { padding:0 0 45px; }
-    .book-heading { margin:0 0 27px; text-align:center; font:italic 27px/1.4 var(--serif); color:#dbcca9; }
-    .book-strip { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; padding-inline:10px; }
-    .book-page { margin:0; padding:24px 22px; border:1px solid #dfd0ae; border-radius:3px; background:#f7f0df; color:#5e4b3c; box-shadow:0 10px 24px #00000024; rotate:-1deg; }
-    .book-page:nth-child(2) { rotate:1.2deg; }
-    .book-page:nth-child(3) { rotate:-.5deg; }
-    .book-page img { display:block; width:100%; height:170px; object-fit:contain; mix-blend-mode:multiply; }
-    .book-page figcaption { margin-top:20px; }
-    .book-page blockquote { margin:0; font:italic 20px/1.5 var(--serif); }
-    .book-page figcaption>span { display:block; margin-top:12px; font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:#967c5c; }
-    .planet-pair { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-    .book-page .planet-caption { margin:0; font:italic 20px/1.5 var(--serif); }
-    .art-credits { max-width:720px; margin:24px auto 0; padding-inline:10px; color:#8e9bb0; text-align:center; font-size:10px; line-height:1.9; }
-    .art-credits summary { display:inline-block; padding:10px; color:#c7b58e; cursor:pointer; text-decoration:underline; text-underline-offset:4px; }
-    .art-credits a { text-underline-offset:3px; }
-    .art-credits p { margin:5px 0 12px; }
     dialog { position:fixed; color-scheme:light; width:min(820px,calc(100% - 32px)); max-height:calc(100dvh - 32px); margin:auto; padding:0; background:#f8f0dd; color:#3f3d3a; border:1px solid #d3b672; border-radius:8px; box-shadow:0 25px 100px #0009; overflow-y:auto; overscroll-behavior:contain; }
     dialog::backdrop { background:#070d1cce; backdrop-filter:blur(5px); }
     .dialog-head { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:18px 22px; }
@@ -139,8 +125,8 @@
       .all-watched { padding-top:30px; margin-bottom:40px; } .all-watched h2 { font-size:49px; } .all-watched p:last-child { font-size:12px; } .footer { flex-direction:column; gap:8px; padding-block:22px; text-align:center; } .footer-signature { font-size:16px; }
       .dialog-head { padding:15px 16px; } .dialog-head h2 { font-size:23px; } .dialog-foot { padding:12px 16px; } .player-hint { max-width:140px; } .next-gift { max-width:142px; font-size:11px; } video { height:58dvh; }
     }
-    @media (max-width:640px) { .book-heading { font-size:23px; } .book-strip { grid-template-columns:1fr 1fr; gap:14px; padding:0; } .book-page,.book-page:nth-child(2),.book-page:nth-child(3) { padding:18px 14px; rotate:0deg; } .book-page:first-child { grid-column:1 / -1; display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:16px; } .book-page:first-child figcaption { margin:0; } .book-page img { height:137px; } .book-page blockquote,.book-page .planet-caption { font-size:17px; } .book-page figcaption { margin-top:15px; } .book-page figcaption>span { font-size:8px; } .book-memories { padding-bottom:30px; } }
-    @media (max-width:360px) { .wrap { width:calc(100% - 30px); } .topline-brand { font-size:15px; } .topline-note { font-size:7px; } .section-heading h2 { font-size:25px; } .star-gift { width:132px; } .gift-name { font-size:18px; } .book-page blockquote,.book-page .planet-caption { font-size:16px; } }
+    @media (max-width:640px) { .hero-art blockquote { font-size:15px; } }
+    @media (max-width:360px) { .wrap { width:calc(100% - 30px); } .topline-brand { font-size:15px; } .topline-note { font-size:7px; } .section-heading h2 { font-size:25px; } .star-gift { width:132px; } .gift-name { font-size:18px; } }
     @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { animation:none !important; transition:none !important; } }
   </style>
 </head>
@@ -167,7 +153,10 @@
         </div>
         <figure class="hero-art">
           <img src="assets/little-planet.png" width="1536" height="1024" alt="Акварельная планета: маленький путешественник с золотым шарфом, лис и роза под колпаком смотрят в звёздное небо." fetchpriority="high" decoding="async">
-          <figcaption>Даже самое большое небо становится ближе,<br>когда в нём есть кто-то родной.</figcaption>
+          <figcaption>
+            <blockquote>«Зорко одно лишь сердце.<br>Самого главного глазами не увидишь.»</blockquote>
+            <cite>Антуан де Сент-Экзюпери<br>«Маленький принц» · перевод Норы Галь</cite>
+          </figcaption>
         </figure>
       </section>
       <section class="sky-section" id="gifts" aria-labelledby="gifts-title">
@@ -202,24 +191,6 @@
         <p class="eyebrow">Семь звёзд. Одна большая любовь.</p>
         <h2 id="ending-title">Ты любим.<br>Очень.</h2>
         <p>Пусть эти голоса согревают тебя и после дня рождения. Возвращайся к ним, когда захочется почувствовать, что близкие рядом.<br><br>С днём рождения, любимый.</p>
-      </section>
-      <section class="book-memories" aria-labelledby="book-title">
-        <h2 class="book-heading" id="book-title">Несколько страниц о главном</h2>
-        <div class="book-strip">
-          <figure class="book-page">
-            <img src="assets/book-fox.jpg" width="425" height="299" loading="lazy" decoding="async" alt="Рисунок Сент-Экзюпери из книги: Маленький принц встречает Лиса среди холмов.">
-            <figcaption><blockquote>«Ты навсегда в ответе за всех, кого приручил.»</blockquote><span>О близости</span></figcaption>
-          </figure>
-          <figure class="book-page">
-            <img src="assets/book-rose.jpg" width="332" height="332" loading="lazy" decoding="async" alt="Рисунок Сент-Экзюпери: Маленький принц поливает свою розу на маленькой планете.">
-            <figcaption><blockquote>«Зорко одно лишь сердце.»</blockquote><span>О самом важном</span></figcaption>
-          </figure>
-          <figure class="book-page">
-            <div class="planet-pair"><img src="assets/book-asteroid.jpg" width="327" height="454" loading="lazy" decoding="async" alt="Рисунок Сент-Экзюпери: Маленький принц стоит на своём астероиде."><img src="assets/book-planet.jpg" width="307" height="297" loading="lazy" decoding="async" alt="Рисунок Сент-Экзюпери: маленькая планета Фонарщика."></div>
-            <figcaption><p class="planet-caption">Маленькие планеты.<br>Большие чувства.</p><span>Под одним небом</span></figcaption>
-          </figure>
-        </div>
-        <details class="art-credits"><summary>Рисунки и слова из книги</summary><p>Рисунки лиса, розы и планет — иллюстрации Антуана де Сент-Экзюпери к «Маленькому принцу». Источники: <a href="https://gutenberg.net.au/ebooks03/0300771h.html" target="_blank" rel="noopener noreferrer">Project Gutenberg Australia</a> и <a href="https://www.ebooksgratuits.com/pdf/st_exupery_le_petit_prince.pdf" target="_blank" rel="noopener noreferrer">Ebooks libres et gratuits</a>. Две цитаты из книги приведены в переводе Норы Галь.</p><p>Заглавная акварель с путешественником, лисом и розой создана специально для этой страницы и вдохновлена книгой.</p></details>
       </section>
     </main>
     <footer class="footer"><span>Для Альфира. От его маленькой вселенной.</span><span class="footer-signature">Самое тёплое всегда рядом.</span></footer>
